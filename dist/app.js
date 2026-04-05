@@ -9,9 +9,12 @@ const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const finance_routes_1 = __importDefault(require("./routes/finance.routes"));
 const dashboard_routes_1 = __importDefault(require("./routes/dashboard.routes"));
 const errorHandler_1 = require("./middleware/errorHandler");
+const swagger_1 = require("./swagger");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+// Initialize Swagger docs before routes
+(0, swagger_1.setupSwagger)(app);
 app.get('/health', (req, res) => {
     res.json({ status: 'OK' });
 });
