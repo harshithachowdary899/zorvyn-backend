@@ -9,6 +9,44 @@ import { loginSchema, registerSchema } from '../validations/schemas';
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key-for-dev';
 
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: User authentication APIs
+ */
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 minLength: 6
+ *               role:
+ *                 type: string
+ *                 enum: [VIEWER, ANALYST, ADMIN]
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Email already exists or validation error
+ */
 router.post('/register', validate(registerSchema), async (req, res, next) => {
   try {
     const { email, password, role = 'VIEWER' } = req.body;
@@ -33,6 +71,41 @@ router.post('/register', validate(registerSchema), async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials
+ */
 router.post('/login', validate(loginSchema), async (req, res, next) => {
   try {
     const { email, password } = req.body;

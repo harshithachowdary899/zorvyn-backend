@@ -4,11 +4,15 @@ import authRoutes from './routes/auth.routes';
 import financeRoutes from './routes/finance.routes';
 import dashboardRoutes from './routes/dashboard.routes';
 import { errorHandler } from './middleware/errorHandler';
+import { setupSwagger } from './swagger';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Initialize Swagger docs before routes
+setupSwagger(app);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
