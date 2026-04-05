@@ -18,6 +18,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
+// Redirect root to api docs
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/dashboard', dashboardRoutes);

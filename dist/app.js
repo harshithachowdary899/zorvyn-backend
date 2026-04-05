@@ -18,6 +18,10 @@ app.use(express_1.default.json());
 app.get('/health', (req, res) => {
     res.json({ status: 'OK' });
 });
+// Redirect root to api docs
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
 app.use('/api/auth', auth_routes_1.default);
 app.use('/api/finance', finance_routes_1.default);
 app.use('/api/dashboard', dashboard_routes_1.default);
